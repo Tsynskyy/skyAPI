@@ -16,12 +16,12 @@ def get_weather(request):
     city = request.query_params.get('city')
 
     if not city:
-        return Response({"error": "City is required"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Ошибка": "Необходимо ввести город"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Проверка кеша
     cached_weather = cache.get(city)
     if cached_weather:
-        print("Returning cached data for:", city)
+        print("Возврат кэшированных данных для:", city)
         return Response(cached_weather)
 
     try:
@@ -34,11 +34,11 @@ def get_weather(request):
 
             data = response.json()
             cache.set(city, data, timeout=1800)  # Кеш на 30 минут
-            print("Caching data for:", city)  # Лог кеша
+            print("Кэширование данных для:", city)  # Лог кеша
             return Response(data)
 
         except (ConnectionError, Timeout, RequestException) as e:
-            print(f"OpenWeather is unavailable: {e}. Switching to the backup WeatherAPI")
+            print(f"OpenWeather недоступен: {e}. Переключение на резервный WeatherAPI")
             api_key_backup = settings.WEATHERAPI_KEY
             backup_url = f'http://api.weatherapi.com/v1/current.json?q={city}&key={api_key_backup}'
 
@@ -52,7 +52,7 @@ def get_weather(request):
 
     except (ConnectionError, Timeout, RequestException) as e:
 
-        return Response({"error": f"Both weather providers are unavailable: {e}"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        return Response({"error": f"Оба провайдера недоступны: {e}"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
     except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"Ошибка": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
