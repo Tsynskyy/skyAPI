@@ -13,7 +13,7 @@ OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 WEATHERAPI_KEY = os.getenv('WEATHERAPI_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
