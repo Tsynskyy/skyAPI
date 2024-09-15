@@ -1,7 +1,6 @@
 from django.urls import path
-from . import views
+from .views import GetWeatherView
 
 urlpatterns = [
-    # Ручка для получения погоды, обрабатывается в get_weather()
-    path('weather/', views.get_weather, name='get_weather'),
+    path('weather/', GetWeatherView.as_view(), name='get_weather'),
 ]

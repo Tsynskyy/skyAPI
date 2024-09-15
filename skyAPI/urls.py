@@ -5,6 +5,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from weather import views
 
 urlpatterns = [
+    path('', views.home, name='home'),  # Домашняя страница
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Ручка для получения токена
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Ручка для обновления токена
